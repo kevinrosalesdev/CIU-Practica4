@@ -2,6 +2,7 @@
 
 float blink = 0.0;
 boolean increase = false;
+boolean cameraMode = false;
 Controller controller;
 PFont font;
 String randomPlanetarySystemTitle;
@@ -10,7 +11,7 @@ String randomPlanetarySystemTitle;
 //int frameCounter;
 
 
-void setup(){
+void setup() {
   size(800, 700, P3D);
   noStroke();
   font = loadFont("GillSansMT-Condensed-48.vlw");
@@ -18,59 +19,114 @@ void setup(){
   controller = new Controller(font);
   controller.createPlanets();
   controller.createMoons();
-  
+
   //ficherogif = new GifMaker(this, "animation.gif");
   //ficherogif.setRepeat(0);
   //ficherogif.addFrame();
   //frameCounter = 0;
 }
 
-void draw(){
+void draw() {
   //frameCounter++;
   //if(frameCounter == 10){
   //  ficherogif.addFrame();
   //  frameCounter = 0;
   //}
-  
+
   controller.setBackground();
+
+  translate(width/2, height/2, 0);
+
+  if (cameraMode) {
+    controller.cameraManager();
+    camera(controller.ship.eyeX, controller.ship.eyeY, controller.ship.eyeZ, 
+      controller.ship.centerX, controller.ship.centerY, controller.ship.centerZ, 
+      sin(radians(controller.ship.degree)), cos(radians(controller.ship.degree)), 0);
+  } else {
+    resetMatrix();
+    translate(0, 0, -800);
+    drawTitleAndControls();
+    rotateX(radians((-mouseY*90/height)+45));
+    rotateY(radians((mouseX*90/width)-45));
+    controller.drawShip();
+  }
   
-  //drawTitle();
-  
-  translate(width/2, height/2, -100);
-  rotateY(radians(-45));
-  
-  camera(controller.ship.eyeX, controller.ship.eyeY, controller.ship.eyeZ,
-         controller.ship.centerX, controller.ship.centerY, controller.ship.centerZ,
-         controller.ship.upX, controller.ship.upY, controller.ship.upZ);
-  
-  fill(255,255,0);
   controller.drawSun();
-  controller.drawShip();
   controller.drawAllPlanets();
   controller.drawAllMoons();
-  
-
-
 }
 
-void drawTitle(){
+void drawTitleAndControls() {
   pushMatrix();
+  translate(-400, -300, 300);
   fill(255, 255, 0, blink());
   textAlign(CENTER);
   textFont(font, 20);
   text("Mapa del Sistema Planetario:", 0.5*width, 0.1*height);
   textFont(font, 35);
   text(randomPlanetarySystemTitle, 0.5*width, 0.15*height);
-  fill(255, 0, 0);
-  textFont(font, 25);
+  textFont(font, 15);
   text("¡Mueva el ratón para rotar el Sistema Planetario!", 0.5*width, 0.2*height);
+  fill(100, 0, 255);
+  rect(0.35*width, 0.65*height, 237.5, 125);
+  fill(255, 255, 0);
+  textFont(font, 25);
+  text("CONTROLES", 0.5*width, 0.7*height);
+  textFont(font, 20);
+  text("Alternar entre vista general/nave: ENTER", 0.5*width, 0.74*height);
+  fill(230, 230, 0);
+  textFont(font, 17.5);
+  text("Zoom (mover nave): rueda del ratón", 0.5*width, 0.77*height);
+  text("Mover cámara: A/W/S/D", 0.5*width, 0.79*height);
+  text("Rotar nave: click izquierdo/derecho", 0.5*width, 0.81*height);
   popMatrix();
 }
 
-float blink(){
+float blink() {
   if (increase) blink += 5;
   else blink -= 5 ;
   if (blink >= 500) increase = false;
   if (blink <= 0) increase = true;
   return blink;
+}
+
+void mousePressed() {
+  if (mouseButton == LEFT) controller.rotateLeft = true;
+  if (mouseButton == RIGHT) controller.rotateRight = true;
+}
+
+void mouseReleased() {
+  if (mouseButton == LEFT) controller.rotateLeft = false;
+  if (mouseButton == RIGHT) controller.rotateRight = false;
+}
+
+void mouseWheel(MouseEvent event) {
+  int count = event.getCount();
+  if (count < 0) {
+    controller.zoomIn = true;
+    controller.zoomOut = false;
+  } else if (count > 0) {
+    controller.zoomIn = false;
+    controller.zoomOut = true;
+  }
+}
+
+void keyPressed() {
+  if (key == 'd' || key == 'D') controller.moveRight = true;
+  if (key == 'a' || key == 'A') controller.moveLeft = true; 
+  if (key == 'w' || key == 'W') controller.moveUp = true;
+  if (key == 's' || key == 'S') controller.moveDown = true;
+  if (key == ENTER || key == RETURN) {
+    cameraMode = !cameraMode;
+    controller.setCameraMode(cameraMode);
+    if (cameraMode) beginCamera(); 
+    else endCamera();
+  }
+}
+
+void keyReleased() {
+  if (key == 'd' || key == 'D') controller.moveRight = false;
+  if (key == 'a' || key == 'A') controller.moveLeft = false;
+  if (key == 'w' || key == 'W') controller.moveUp = false;
+  if (key == 's' || key == 'S') controller.moveDown = false;
 }

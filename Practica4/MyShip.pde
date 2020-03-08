@@ -1,14 +1,12 @@
 class MyShip{
   
   PShape model;
-  float rotationZ, drotationZ, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ;
+  float eyeX, eyeY, eyeZ, centerX, centerY, centerZ, degree;
   
-  MyShip(PShape model, PImage texture, float drotationZ, float eyeX, float eyeY, float eyeZ,
-         float centerX, float centerY, float centerZ, float upX, float upY, float upZ){
+  MyShip(PShape model, PImage texture, float eyeX, float eyeY, float eyeZ,
+         float centerX, float centerY, float centerZ, float degree){
     this.model = model;
     model.setTexture(texture);
-    this.drotationZ = drotationZ;
-    this.rotationZ = 0;
     
     this.eyeX = eyeX;
     this.eyeY = eyeY;
@@ -16,9 +14,6 @@ class MyShip{
     this.centerX = centerX;
     this.centerY = centerY;
     this.centerZ = centerZ;
-    this.upX = upX;
-    this.upY = upY;
-    this.upZ = upZ;
+    this.degree = degree;
   }
-  
 }
