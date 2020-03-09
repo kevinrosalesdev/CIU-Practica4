@@ -66,7 +66,7 @@ class Controller{
     scale(0.1);
     shape(ship.model);
     popMatrix();
-}
+  }
   
   void drawAllPlanets(){
     for(MySphere planet: planetList){
@@ -220,18 +220,18 @@ class Controller{
   }
   
   void cameraView(){
-    if(moveUp && ship.centerY - 5 >= -1500) updateCenterV(false);
-    if(moveDown && ship.centerY + 5 <= 1500) updateCenterV(true);
+    if(moveUp && ship.centerY - 15 >= -1500) updateCenterV(false);
+    if(moveDown && ship.centerY + 15 <= 1500) updateCenterV(true);
     if(moveRight){
-      if(ship.centerX + 5 <= 1500 && ship.eyeZ > ship.centerZ) updateCenterH(true);
-      else if (ship.centerX - 5 >= -1500) updateCenterH(false);
+      if(ship.centerX + 15 <= 1500 && ship.eyeZ > ship.centerZ) updateCenterH(true);
+      else if (ship.centerX - 15 >= -1500) updateCenterH(false);
       
       if(ship.centerZ - 2.5 >= -1500 && ship.centerX < ship.eyeX) ship.centerZ -= 2.5;
       else if (ship.centerZ + 2.5 <= 1500) ship.centerZ += 2.5;
     }
     if(moveLeft){
-      if(ship.centerX - 5 >= -1500 && ship.eyeZ > ship.centerZ) updateCenterH(false);
-      else if (ship.centerX + 5 <= 1500) updateCenterH(true);
+      if(ship.centerX - 15 >= -1500 && ship.eyeZ > ship.centerZ) updateCenterH(false);
+      else if (ship.centerX + 15 <= 1500) updateCenterH(true);
       
       if(ship.centerZ + 2.5 <= 1500 && ship.centerX < ship.eyeX) ship.centerZ += 2.5;
       else if (ship.centerZ - 2.5 >= -1500) ship.centerZ -= 2.5;

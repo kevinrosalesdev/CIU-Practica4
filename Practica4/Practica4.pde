@@ -29,8 +29,8 @@ void setup() {
 void draw() {
   //frameCounter++;
   //if(frameCounter == 10){
-  //  ficherogif.addFrame();
-  //  frameCounter = 0;
+    //ficherogif.addFrame();
+    //frameCounter = 0;
   //}
 
   controller.setBackground();
@@ -40,8 +40,8 @@ void draw() {
   if (cameraMode) {
     controller.cameraManager();
     camera(controller.ship.eyeX, controller.ship.eyeY, controller.ship.eyeZ, 
-      controller.ship.centerX, controller.ship.centerY, controller.ship.centerZ, 
-      sin(radians(controller.ship.degree)), cos(radians(controller.ship.degree)), 0);
+            controller.ship.centerX, controller.ship.centerY, controller.ship.centerZ, 
+            sin(radians(controller.ship.degree)), cos(radians(controller.ship.degree)), 0);
   } else {
     resetMatrix();
     translate(0, 0, -800);
