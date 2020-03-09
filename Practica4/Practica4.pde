@@ -76,9 +76,9 @@ void drawTitleAndControls() {
   text("Alternar entre vista general/nave: ENTER", 0.5*width, 0.74*height);
   fill(230, 230, 0);
   textFont(font, 17.5);
-  text("Zoom (mover nave): rueda del ratón", 0.5*width, 0.77*height);
+  text("Zoom (mover nave): flecha arriba/flecha abajo", 0.5*width, 0.77*height);
   text("Mover cámara: A/W/S/D", 0.5*width, 0.79*height);
-  text("Rotar nave: click izquierdo/derecho", 0.5*width, 0.81*height);
+  text("Rotar nave: Q/E", 0.5*width, 0.81*height);
   popMatrix();
 }
 
@@ -90,32 +90,21 @@ float blink() {
   return blink;
 }
 
-void mousePressed() {
-  if (mouseButton == LEFT) controller.rotateLeft = true;
-  if (mouseButton == RIGHT) controller.rotateRight = true;
-}
-
-void mouseReleased() {
-  if (mouseButton == LEFT) controller.rotateLeft = false;
-  if (mouseButton == RIGHT) controller.rotateRight = false;
-}
-
-void mouseWheel(MouseEvent event) {
-  int count = event.getCount();
-  if (count < 0) {
-    controller.zoomIn = true;
-    controller.zoomOut = false;
-  } else if (count > 0) {
-    controller.zoomIn = false;
-    controller.zoomOut = true;
-  }
-}
-
 void keyPressed() {
   if (key == 'd' || key == 'D') controller.moveRight = true;
   if (key == 'a' || key == 'A') controller.moveLeft = true; 
   if (key == 'w' || key == 'W') controller.moveUp = true;
   if (key == 's' || key == 'S') controller.moveDown = true;
+  if (key == 'q' || key == 'Q') controller.rotateLeft = true;
+  if (key == 'e' || key == 'E') controller.rotateRight = true;
+  if (key == CODED && keyCode == UP) {
+    controller.zoomIn = true;
+    controller.zoomOut = false;  
+  }
+  if (key == CODED && keyCode == DOWN) {
+    controller.zoomIn = false;
+    controller.zoomOut = true;
+  }
   if (key == ENTER || key == RETURN) {
     cameraMode = !cameraMode;
     controller.setCameraMode(cameraMode);
@@ -129,4 +118,12 @@ void keyReleased() {
   if (key == 'a' || key == 'A') controller.moveLeft = false;
   if (key == 'w' || key == 'W') controller.moveUp = false;
   if (key == 's' || key == 'S') controller.moveDown = false;
+  if (key == 'q' || key == 'Q') controller.rotateLeft = false;
+  if (key == 'e' || key == 'E') controller.rotateRight = false;
+    if (key == CODED && keyCode == UP) {
+    controller.zoomIn = false;  
+  }
+  if (key == CODED && keyCode == DOWN) {
+    controller.zoomOut = false;
+  }
 }

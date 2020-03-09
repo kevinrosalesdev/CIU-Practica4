@@ -183,8 +183,6 @@ class Controller{
         moveXY(1);
       }
     }
-    controller.zoomIn = false;
-    controller.zoomOut = false;
   }
   
   void moveXY(int flag){
